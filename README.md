@@ -1,2 +1,2 @@
-# Pootle-Slider
-The ultimate slider for Pootle Pagebuilder
+# Pootle Slider
+The awesome pootle slider
