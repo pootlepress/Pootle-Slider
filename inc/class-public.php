@@ -115,7 +115,7 @@ class Pootle_Slider_Public{
 		);
 		$this->style( $id );
 		$this->script( $id );
-		echo "<div id='{$id}-wrap'>$pb</div>";
+		echo "<div class='pootle-slider-wrap' id='{$id}-wrap'>$pb</div>";
 	}
 
 	private function script( $id ) {

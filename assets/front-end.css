@@ -6,23 +6,28 @@
  */
 .pootle-slide .panel-grid-cell-container {
 	position: absolute;
+	/* Vertical align middle
 	top: 50%;
+	transform: translateY(-50%);
+	*/
+	top: 0;
 	left: 0;
 	right: 0;
-	transform: translateY(-50%);
 	display: block !important;
 	margin: 16px;
 }
 .pootle-slide .panel-grid-cell-container .panel-grid-cell {
+	/* Vertical align middle
 	vertical-align: middle !important
+	*/
 }
 
 .pootle-slide .ppb-block *:first-child {
-	margin-top: 0 !important;
+margin-top: 0 !important;
 }
 
 .pootle-slide .ppb-block *:last-child {
-	margin-bottom: 0 !important;
+margin-bottom: 0 !important;
 }
 
 /* FlexSlider Styling */
