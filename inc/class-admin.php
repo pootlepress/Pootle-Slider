@@ -95,9 +95,25 @@ class Pootle_Slider_Admin{
 
 	/**
 	 * Adds new slider link to admon bar
-	 * @param $admin_bar
+	 * @param WP_Admin_Bar $admin_bar
 	 */
-	function admin_menu( $admin_bar ) {
+	function admin_bar_menu( $admin_bar ) {
+		$new_live_page_url = admin_url( 'admin-ajax.php' );
+		$new_live_page_url = wp_nonce_url( $new_live_page_url, 'ppb-new-live-post', 'ppbLiveEditor' ) . '&action=pootlepb_live_page';
+
+		$admin_bar->add_menu( array(
+			'parent' => 'new-content',
+			'id'     => 'ppb-new-live-pootle-slider',
+			'title'  => 'Pootle Slider',
+			'href'   => $new_live_page_url . '&post_type=pootle-slider'
+		) );
+
+	}
+
+	/**
+	 * Adds new slider link to admon bar
+	 */
+	function admin_menu() {
 		add_submenu_page(
 			'page_builder',
 			'Pootle Sliders',
@@ -127,6 +143,22 @@ class Pootle_Slider_Admin{
 	}
 
 	/**
+	 * Filters the row actions
+	 * @filter post_row_actions
+	 */
+	public function post_row_actions( $actions, $post ) {
+
+		if( 'pootle-slider' == $post->post_type ) {
+			if ( ! empty( $actions['edit'] ) ) {
+				$nonce_url = wp_nonce_url( get_the_permalink( $post->ID ), 'ppb-live-' . $post->ID, 'ppbLiveEditor' );
+
+				$actions['edit'] = '<a href="' . $nonce_url . '" aria-label="Edit “Home”">Edit</a>';
+			}
+		}
+		return $actions;
+	}
+
+	/**
 	 * Adds row settings panel fields
 	 * @param array $fields Fields to output in row settings panel
 	 * @return array Tabs
@@ -147,7 +179,7 @@ class Pootle_Slider_Admin{
 	 */
 	public function content_block_tabs( $tabs ) {
 		$tabs[ $this->token ] = array(
-			'label' => 'Pootle Slider',
+			'label' => 'Slider',
 			'priority' => 7,
 		);
 		return $tabs;
@@ -175,38 +207,85 @@ class Pootle_Slider_Admin{
 		}
 
 		$fields[ "$this->token-id" ] = array(
-			'name' => 'Sample Number with unit',
+			'name' => 'Choose slider',
 			'type' => 'select',
 			'priority' => 5,
 			'options'  => $options,
 			'tab' => $this->token,
-			'help-text' => 'This is a sample boilerplate field, Sets left and top offset in em.'
 		);
 
-		$fields[ "$this->token-animation"] = array(
+		$fields[ "$this->token-full_width" ] = array(
+			'name' => 'Make slider go full width',
+			'type' => 'checkbox',
+			'priority' => 8,
+			'tab' => $this->token,
+		);
+
+		$fields[ "$this->token-js_pauseOnHover" ] = array(
+			'name' => 'Pause the slider on mouse over',
+			'type' => 'checkbox',
+			'priority' => 8,
+			'tab' => $this->token,
+		);
+
+		$fields[ "$this->token-js_animation"] = array(
 			'name' => 'Animation',
 			'type' => 'select',
-			'priority' => 10,
+			'priority' => 12,
 			'options'  => array(
-				'' => 'Slide'
+				'' => 'Fade',
+				'slide' => 'Slide',
+//				"slide', direction: 'vertical" => 'Slide Vertical',
 			),
 			'tab' => $this->token,
 		);
-		$fields[ "$this->token-duration"] =  array(
-			'name' => 'Duration',
-			'type' => 'number',
-			'priority' => 15,
+		$fields[ "$this->token-js_slideshowSpeed"] =  array(
+			'name' => 'Sliding speed',
+			'type' => 'select',
+			'options'  => array(
+				'10600' => 'Very slow',
+				'8800' => 'Slow',
+				'' => 'Normal',
+				'4300' => 'Fast',
+				'2500' => 'Very Fast',
+			),
+			'priority' => 16,
 			'tab' => $this->token,
 		);
 		$fields[ "$this->token-ratio"] =  array(
 			'name' => 'Height as a percentage of width',
-			'type' => 'number',
-			'min' => '10',
-			'max' => '250',
+			'type' => 'select',
+			'options'  => array(
+				'75' => '4:3 Standard Definition',
+				'' => '16:9 High Definition',
+				'33.33' => '21:9 Cinematic',
+			),
 			'priority' => 20,
 			'tab' => $this->token,
 		);
 		return $fields;
 	}
 
+	public function module( $mods ) {
+		if ( 'pootle-slider' == get_post_type() ) {
+			$mods["pootle-slider"] = array(
+				'label' => 'New Slide',
+				'icon_class' => 'dashicons dashicons-slides',
+				'tab' => "#pootlepb-background-row-tab",
+				'callback' => 'heroSection',
+				'ActiveClass' => 'Pootle_Slider',
+				'priority' => 5
+			);
+		} else {
+			$mods["pootle-slider"] = array(
+				'label' => 'Slider',
+				'icon_class' => 'dashicons dashicons-slides',
+				'tab' => "#pootle-pootle-slider-tab",
+				'callback' => 'heroSection',
+				'ActiveClass' => 'Pootle_Slider',
+				'priority' => 5
+			);
+		}
+		return $mods;
+	}
 }

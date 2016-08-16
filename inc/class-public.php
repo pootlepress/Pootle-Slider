@@ -16,8 +16,8 @@ class Pootle_Slider_Public{
 	/** @var int Slider post id */
 	protected $id = 0;
 
-	/** @var string Slider animation */
-	protected $animation;
+	/** @var array Slider animation */
+	protected $js_props = array();
 
 	/** @var string Slider duration */
 	protected $duration;
@@ -25,10 +25,12 @@ class Pootle_Slider_Public{
 	/** @var string Slider height ratio */
 	protected $ratio;
 
+	/** @var string Stretch full width */
+	protected $full_width;
+
 	private $defaults = array(
-		'animation'		=> 'slide',
-		'duration'		=> '2.5',
 		'ratio'			=> '56.25',
+		'full_width'    => '',
 	);
 
 	/**
@@ -89,7 +91,12 @@ class Pootle_Slider_Public{
 		foreach ( $settings as $k => $v ) {
 			if ( 0 === strpos( $k, $pre ) ) {
 				$k = str_replace( $pre, '', $k );
-				$this->$k = $v ? $v : $this->defaults[ $k ];
+				if ( 0 === strpos( $k, 'js_' ) ) {
+					$k = str_replace( 'js_', '', $k );
+					if ( $v ) $this->js_props[ $k ] = $v;
+				} else {
+					$this->$k = $v ? $v : $this->defaults[ $k ];
+				}
 			}
 		}
 	}
@@ -102,8 +109,8 @@ class Pootle_Slider_Public{
 			array(
 				'id="pootle-page-builder"',
 				'class="panel-grid ppb-row"',
-				'',
-				'',
+				'ppb-stretch-full-width',
+				'ppb-full-width-no-bg',
 			),
 			array(
 				"class='pootle-slider' id='$id'",
@@ -113,18 +120,33 @@ class Pootle_Slider_Public{
 			),
 			$pb
 		);
+
+		$class = 'pootle-slider-wrap';
+		$class .= $this->full_width ? ' ppb-stretch-full-width' : '';
+
 		$this->style( $id );
+		echo "<div class='$class' id='{$id}-wrap'>$pb</div>";
 		$this->script( $id );
-		echo "<div class='pootle-slider-wrap' id='{$id}-wrap'>$pb</div>";
 	}
 
 	private function script( $id ) {
 		?>
 		<script>
 			jQuery( function( $ ) {
+
+				var playvids = function ( slider ) {
+					slider.find( 'video' ).each( function () {
+						$( this )[0].play();
+					} );
+				};
+
 				$( '#<?php echo $id ?>-wrap' ).flexslider( {
-					selector  : ".pootle-slider > .pootle-slide",
-					animation : 'slide'
+					start : playvids,
+					selector  : ".pootle-slider > .pootle-slide"<?php
+					foreach ( $this->js_props as $p => $v ) {
+						echo ",$p : '$v'";
+					}
+					?>
 				} );
 			} );
 		</script>

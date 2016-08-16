@@ -4,6 +4,22 @@
  * @package Pootle_Slider
  * @version 1.0.0
  */
+.single-pootle-slider .panel-grid:after {
+	margin-right: -999px;
+	margin-left: -999px;
+	border-bottom: 30px solid gray;
+	display: block;
+}
+
+#pootle-page-builder .panel-grid .panel-row-style {
+	overflow: visible;
+}
+
+.pootle-slider-wrap.ppb-stretch-full-width {
+	padding-left: 0!important;
+	padding-right: 0!important;
+}
+
 .pootle-slide .panel-grid-cell-container {
 	position: absolute;
 	/* Vertical align middle
@@ -23,11 +39,11 @@
 }
 
 .pootle-slide .ppb-block *:first-child {
-margin-top: 0 !important;
+	margin-top: 0 !important;
 }
 
 .pootle-slide .ppb-block *:last-child {
-margin-bottom: 0 !important;
+	margin-bottom: 0 !important;
 }
 
 /* FlexSlider Styling */

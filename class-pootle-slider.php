@@ -7,7 +7,7 @@
  * @static string $path Plugin root dir path
  * @static string $version Plugin version
  */
-class Pootle_Slider{
+class Pootle_Slider {
 
 	/**
 	 * @var 	Pootle_Slider Instance
@@ -129,6 +129,12 @@ class Pootle_Slider{
 		//Adding the custom post type
 		$this->admin->init();
 		add_action( 'admin_menu',						array( $this->admin, 'admin_menu' ) );
+		// + New Pootle Slider
+		add_action( 'admin_bar_menu',					array( $this->admin, 'admin_bar_menu' ), 999 );
+		// Slider module
+		add_action( 'pootlepb_modules',					array( $this->admin, 'module' ), 25 );
+		// Post actions
+		add_action( 'post_row_actions',					array( $this->admin, 'post_row_actions' ), 999, 2 );
 		//Redirecting to new slider page
 		$this->admin->redirect_new_slider();
 		//Row settings panel fields
