@@ -135,6 +135,8 @@ class Pootle_Slider {
 		add_action( 'pootlepb_modules',					array( $this->admin, 'module' ), 25 );
 		// Post actions
 		add_action( 'post_row_actions',					array( $this->admin, 'post_row_actions' ), 999, 2 );
+		// Template for new pootle slider
+		add_filter( 'pootlepb_live_page_template',		array( $this->admin, 'new_pootle_slider' ), 10, 3 );
 		//Redirecting to new slider page
 		$this->admin->redirect_new_slider();
 		//Row settings panel fields

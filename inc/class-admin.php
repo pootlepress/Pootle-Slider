@@ -171,6 +171,23 @@ class Pootle_Slider_Admin{
 	}
 
 	/**
+	 * Adds row settings panel fields
+	 * @param array $fields Fields to output in row settings panel
+	 * @return array Tabs
+	 * @filter pootlepb_live_page_template
+	 * @since 	1.0.0
+	 */
+	public function new_pootle_slider( $ppble_new_live_page, $id, $post_type ) {
+		if ( 'pootle-slider' == $post_type ) {
+			$ppble_new_live_page['grids'] = array();
+			$ppble_new_live_page['grid_cells'] = array();
+			$ppble_new_live_page['widgets'] = array();
+			update_post_meta( $id, 'pootlepb-new', '1' );
+		}
+		return $ppble_new_live_page;
+	}
+
+	/**
 	 * Adds editor panel tab
 	 * @param array $tabs The array of tabs
 	 * @return array Tabs
@@ -272,7 +289,7 @@ class Pootle_Slider_Admin{
 				'label' => 'New Slide',
 				'icon_class' => 'dashicons dashicons-slides',
 				'tab' => "#pootlepb-background-row-tab",
-				'callback' => 'heroSection',
+				'callback' => 'pootleSliderSlide',
 				'ActiveClass' => 'Pootle_Slider',
 				'priority' => 5
 			);
@@ -281,7 +298,7 @@ class Pootle_Slider_Admin{
 				'label' => 'Slider',
 				'icon_class' => 'dashicons dashicons-slides',
 				'tab' => "#pootle-pootle-slider-tab",
-				'callback' => 'heroSection',
+				//'callback' => 'pootleSliderSlide',
 				'ActiveClass' => 'Pootle_Slider',
 				'priority' => 5
 			);
