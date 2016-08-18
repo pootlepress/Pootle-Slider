@@ -73,7 +73,7 @@ class Pootle_Slider {
 	 * @since 1.0.0
 	 * @return Pootle_Slider instance
 	 */
-	public static function instance( $file ) {
+	public static function instance( $file = '' ) {
 		if ( null == self::$_instance ) {
 			self::$_instance = new self( $file );
 		}
@@ -93,6 +93,12 @@ class Pootle_Slider {
 		self::$url     =   plugin_dir_url( $file );
 		self::$path    =   plugin_dir_path( $file );
 		self::$version =   '1.0.0';
+
+		//Instantiating admin class
+		$this->admin = Pootle_Slider_Admin::instance();
+
+		//Instantiating public class
+		$this->public = Pootle_Slider_Public::instance();
 
 		add_action( 'init', array( $this, 'init' ) );
 	} // End __construct()
@@ -123,11 +129,8 @@ class Pootle_Slider {
 	 * @since 1.0.0
 	 */
 	private function _admin() {
-		//Instantiating admin class
-		$this->admin = Pootle_Slider_Admin::instance();
-
 		//Adding the custom post type
-		$this->admin->init();
+		$this->admin->register_post_type();
 		add_action( 'admin_menu',						array( $this->admin, 'admin_menu' ) );
 		// + New Pootle Slider
 		add_action( 'admin_bar_menu',					array( $this->admin, 'admin_bar_menu' ), 999 );
@@ -137,8 +140,6 @@ class Pootle_Slider {
 		add_action( 'post_row_actions',					array( $this->admin, 'post_row_actions' ), 999, 2 );
 		// Template for new pootle slider
 		add_filter( 'pootlepb_live_page_template',		array( $this->admin, 'new_pootle_slider' ), 10, 3 );
-		//Redirecting to new slider page
-		$this->admin->redirect_new_slider();
 		//Row settings panel fields
 		add_filter( 'pootlepb_builder_post_types',		array( $this->admin, 'ppb_posts' ) );
 		//Content block panel tabs
@@ -155,9 +156,6 @@ class Pootle_Slider {
 	 * @since 1.0.0
 	 */
 	private function _public() {
-		//Instantiating public class
-		$this->public = Pootle_Slider_Public::instance();
-
 		//Adding front end JS and CSS in /assets folder
 		add_action( 'wp_enqueue_scripts',					array( $this->public, 'enqueue' ) );
 		//Add/Modify content block html attributes

@@ -45,7 +45,7 @@ class Pootle_Slider_Admin{
 	 * @action init
 	 * @since 	1.0.0
 	 */
-	public function init() {
+	public function register_post_type() {
 		$labels = array(
 			'name'                  => _x( 'Pootle Sliders', 'Pootle Slider General Name', 'pootle-slider' ),
 			'singular_name'         => _x( 'Pootle Slider', 'Pootle Slider Singular Name', 'pootle-slider' ),
@@ -121,25 +121,6 @@ class Pootle_Slider_Admin{
 			'manage_options',
 			'edit.php?post_type=pootle-slider'
 		);
-		add_submenu_page(
-			'page_builder',
-			'New Pootle Slider',
-			'New Pootle Slider',
-			'manage_options',
-			'new_page_builder_pootle_slider',
-			function(){}
-		);
-	}
-
-	function redirect_new_slider() {
-		global $pagenow;
-		if ( ! empty( $pagenow ) && 'admin.php' == $pagenow ) {
-			if ( 'new_page_builder_pootle_slider' == filter_input( INPUT_GET, 'page' ) ) {
-				$new_live_page_url = admin_url( 'admin-ajax.php' );
-				$new_live_page_url = wp_nonce_url( $new_live_page_url, 'ppb-new-live-post', 'ppbLiveEditor' ) . '&action=pootlepb_live_page';
-				wp_redirect( "$new_live_page_url&post_type=pootle-slider" );
-			}
-		}
 	}
 
 	/**
@@ -251,8 +232,19 @@ class Pootle_Slider_Admin{
 			'priority' => 12,
 			'options'  => array(
 				'' => 'Fade',
-				'slide' => 'Slide',
+				"'slide'" => 'Slide',
 //				"slide', direction: 'vertical" => 'Slide Vertical',
+			),
+			'tab' => $this->token,
+		);
+		$fields[ "$this->token-js_controlNav"] = array(
+			'name' => 'Navigation',
+			'type' => 'select',
+			'priority' => 12,
+			'options'  => array(
+				'' => 'Arrows and slide bullets',
+				'false' => 'Arrows only',
+				'false,directionNav:false' => 'None',
 			),
 			'tab' => $this->token,
 		);
@@ -285,7 +277,9 @@ class Pootle_Slider_Admin{
 
 	public function module( $mods ) {
 		if ( 'pootle-slider' == get_post_type() ) {
-			$mods["pootle-slider"] = array(
+			$modules = $mods;
+			$mods = array();
+			$mods['pootle-slider'] = array(
 				'label' => 'New Slide',
 				'icon_class' => 'dashicons dashicons-slides',
 				'tab' => "#pootlepb-background-row-tab",
@@ -293,6 +287,17 @@ class Pootle_Slider_Admin{
 				'ActiveClass' => 'Pootle_Slider',
 				'priority' => 5
 			);
+
+			$mods['ninja_forms-form'] = $modules['ninja_forms-form'];
+			$mods['pbtn'] = $modules['pbtn'];
+
+			add_filter( 'pootlepb_enabled_addons', function() {
+				return array( 'pootle-slider', 'pbtn', 'ninja_forms-form', );
+			} );
+
+			add_filter( 'pootlepb_disabled_addons', function() {
+				return array();
+			} );
 		} else {
 			$mods["pootle-slider"] = array(
 				'label' => 'Slider',

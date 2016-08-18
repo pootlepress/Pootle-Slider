@@ -8,7 +8,6 @@ Version: 1.0.0
 Author URI: http://pootlepress.com/
 @developer shramee <shramee.srivastav@gmail.com>
 */
-
 /** Plugin admin class */
 require 'inc/class-admin.php';
 /** Plugin public class */
@@ -17,6 +16,12 @@ require 'inc/class-public.php';
 require 'class-pootle-slider.php';
 /** Intantiating main plugin class */
 Pootle_Slider::instance( __FILE__ );
+
+register_activation_hook( __FILE__, function () {
+	Pootle_Slider::instance( __FILE__ )->admin->register_post_type();
+	flush_rewrite_rules();
+} );
+
 
 /** Addon update API */
 add_action( 'plugins_loaded', 'Pootle_Slider_api_init' );

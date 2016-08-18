@@ -68,7 +68,7 @@ class Pootle_Slider_Public{
 		$url = $this->url;
 
 		wp_enqueue_style( $token . '-css', $url . '/assets/front-end.css' );
-		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery' ) );
+		wp_enqueue_script( $token . '-js', $url . '/assets/live-editing.js', array( 'jquery', 'pootle-live-editor', ) );
 		wp_enqueue_script( 'ppb-flex-slider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
 	}
 
@@ -141,10 +141,9 @@ class Pootle_Slider_Public{
 				};
 
 				$( '#<?php echo $id ?>-wrap' ).flexslider( {
-					start : playvids,
-					selector  : ".pootle-slider > .pootle-slide"<?php
+					start : playvids,selector  : ".pootle-slider > .pootle-slide"<?php
 					foreach ( $this->js_props as $p => $v ) {
-						echo ",$p : '$v'";
+						echo ",$p : $v";
 					}
 					?>
 				} );
@@ -156,14 +155,7 @@ class Pootle_Slider_Public{
 	private function style( $id ) {
 		echo <<<STYLE
 		<style id="pootle-slider-style">
-		#$id {
-		
-		}
-		#$id .pootle-slide .panel-row-style {
-			height: 0;
-			min-height: 0;
-			padding-top: {$this->ratio}%;
-		}
+		#$id .pootle-slide .panel-row-style{padding-top: {$this->ratio}%;}
 		</style>
 STYLE;
 	}
