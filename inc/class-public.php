@@ -68,7 +68,8 @@ class Pootle_Slider_Public{
 		$url = $this->url;
 
 		wp_enqueue_style( $token . '-css', $url . '/assets/front-end.css' );
-		wp_enqueue_script( $token . '-js', $url . '/assets/live-editing.js', array( 'jquery', 'pootle-live-editor', ) );
+		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery', ) );
+		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-editing.js', array( 'jquery', 'pootle-live-editor', ) );
 		wp_enqueue_script( 'ppb-flex-slider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
 	}
 
@@ -153,9 +154,22 @@ class Pootle_Slider_Public{
 	}
 
 	private function style( $id ) {
-		echo <<<STYLE
+		$ratio = $this->ratio;
+		$ratio160p = $ratio * 1.60;
+		$ratio250p = $ratio * 2.5;
+		echo /** @lang html */
+		<<<STYLE
 		<style id="pootle-slider-style">
-		#$id .pootle-slide .panel-row-style{padding-top: {$this->ratio}%;}
+			#$id .pootle-slide .panel-row-style{padding-top: 160%;}
+			@media screen and (min-width:475px) {
+				#$id .pootle-slide .panel-row-style{padding-top: {$ratio250p}%;}
+			}
+			@media screen and (min-width:520px) {
+				#$id .pootle-slide .panel-row-style{padding-top: {$ratio160p}%;}
+			}
+			@media screen and (min-width:800px) {
+				#$id .pootle-slide .panel-row-style{padding-top: {$ratio}%;}
+			}
 		</style>
 STYLE;
 	}
