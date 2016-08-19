@@ -156,10 +156,12 @@ class Pootle_Slider {
 	 * @since 1.0.0
 	 */
 	private function _public() {
-		//Adding front end JS and CSS in /assets folder
-		add_action( 'wp_enqueue_scripts',					array( $this->public, 'enqueue' ) );
-		//Add/Modify content block html attributes
-		add_filter( 'pootlepb_render_content_block',	array( $this->public, 'content_block' ), 52, 4 );
+		// Adding front end JS and CSS in /assets folder
+		add_action( 'wp_enqueue_scripts',				array( $this->public, 'enqueue' ) );
+		// Add/Modify content block html attributes
+		add_action( 'pootlepb_render_content_block',	array( $this->public, 'content_block' ), 52, 4 );
+		// Slider preview after publish
+		add_filter( 'pootlepb_render',					array( $this->public, 'render_slider_preview' ), 25, 2 );
 
 	} // End enqueue()
 

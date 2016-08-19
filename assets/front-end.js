@@ -8,7 +8,9 @@ jQuery( function ( $ ) {
 			.not( '#wpadminbar, #wpadminbar *' )
 			.not( '.ppb-widget, .ppb-widget *' )
 			.not( '.pootlepb-dialog, .pootlepb-dialog *' )
+			.not( '.pootle-slider-wrap, .pootle-slider-wrap *' )
 			.not( '#pootle-page-builder, #pootle-page-builder *' )
+			.not( $('.pootle-slider-wrap').parents() )
 			.not( $ppb.parents() )
 			.hide();
 		$bd.show();

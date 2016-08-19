@@ -68,6 +68,22 @@
 	font-style: normal;
 }
 
+.pootle-slider-wrap {
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+	position: relative;
+}
+
+.pootle-slider-wrap:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.pootle-slider-wrap.pootle-slider-transparent {
+	opacity: 0; /* Keep slider transparent in the beginning */
+}
+
 .pootle-slider-wrap .flex-container a:hover,
 .pootle-slider-wrap .flex-slider a:hover {
 	outline: 0;

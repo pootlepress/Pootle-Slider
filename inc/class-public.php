@@ -26,7 +26,7 @@ class Pootle_Slider_Public{
 	protected $ratio;
 
 	/** @var string Stretch full width */
-	protected $full_width;
+	protected $full_width = 1;
 
 	private $defaults = array(
 		'ratio'			=> '56.25',
@@ -83,7 +83,8 @@ class Pootle_Slider_Public{
 		$settings = json_decode( $cb['info']['style'], true );
 		if ( ! empty( $settings["{$this->token}-id"]) ) {
 			$this->get_properties( $settings );
-			$this->render_slider();
+			Pootle_Page_Builder_Live_Editor_Public::deactivate_le();
+			echo Pootle_Page_Builder_Render_Layout::render( $this->id );
 		}
 	}
 
@@ -102,10 +103,19 @@ class Pootle_Slider_Public{
 		}
 	}
 
-	private function render_slider() {
-		$id = "pootle-slider-{$this->id}";
-		Pootle_Page_Builder_Live_Editor_Public::enable_do_nothing();
-		$pb = Pootle_Page_Builder_Render_Layout::render( $this->id );
+	/**
+	 * Converts pootle slider rows into a slider
+	 *
+	 * @param string $ppb_html
+	 * @param int $post_id
+	 * @return string
+	 */
+	public function render_slider_preview( $ppb_html, $post_id ) {
+		if ( 'pootle-slider' != get_post_type( $post_id ) || Pootle_Page_Builder_Live_Editor_Public::is_active() ) {
+			return $ppb_html;
+		}
+
+		$id = "pootle-slider-$post_id";
 		$pb = str_replace(
 			array(
 				'id="pootle-page-builder"',
@@ -119,47 +129,49 @@ class Pootle_Slider_Public{
 				'',
 				'',
 			),
-			$pb
+			$ppb_html
 		);
 
-		$class = 'pootle-slider-wrap';
+		$class = 'pootle-slider-wrap pootle-slider-transparent';
 		$class .= $this->full_width ? ' ppb-stretch-full-width' : '';
 
-		$this->style( $id );
-		echo "<div class='$class' id='{$id}-wrap'>$pb</div>";
-		$this->script( $id );
+		return
+			$this->style( $id ) .
+			"<div class='$class' id='{$id}-wrap'>$pb</div>" .
+			$this->script( $id );
 	}
 
 	private function script( $id ) {
-		?>
-		<script>
+		$js_props = 'start : playvids,selector  : ".pootle-slider > .pootle-slide"';
+		foreach ( $this->js_props as $p => $v ) {
+			$js_props .= ",$p : $v";
+		}
+
+		return /** @lang html */
+			<<<SCRIPT
+		<script id='$id-script'>
 			jQuery( function( $ ) {
 
 				var playvids = function ( slider ) {
+					slider.removeClass( 'pootle-slider-transparent' );
 					slider.find( 'video' ).each( function () {
 						$( this )[0].play();
 					} );
 				};
 
-				$( '#<?php echo $id ?>-wrap' ).flexslider( {
-					start : playvids,selector  : ".pootle-slider > .pootle-slide"<?php
-					foreach ( $this->js_props as $p => $v ) {
-						echo ",$p : $v";
-					}
-					?>
-				} );
+				$( '#$id-wrap' ).flexslider( { $js_props } );
 			} );
 		</script>
-		<?php
+SCRIPT;
 	}
 
 	private function style( $id ) {
 		$ratio = $this->ratio;
 		$ratio160p = $ratio * 1.60;
 		$ratio250p = $ratio * 2.5;
-		echo /** @lang html */
+		return /** @lang html */
 		<<<STYLE
-		<style id="pootle-slider-style">
+		<style id="$id-style">
 			#$id .pootle-slide .panel-row-style{padding-top: 160%;}
 			@media screen and (min-width:475px) {
 				#$id .pootle-slide .panel-row-style{padding-top: {$ratio250p}%;}
