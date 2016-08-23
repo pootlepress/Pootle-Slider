@@ -274,40 +274,4 @@ class Pootle_Slider_Admin{
 		);
 		return $fields;
 	}
-
-	public function module( $mods ) {
-		if ( 'pootle-slider' == get_post_type() ) {
-			$modules = $mods;
-			$mods = array();
-			$mods['pootle-slider'] = array(
-				'label' => 'New Slide',
-				'icon_class' => 'dashicons dashicons-slides',
-				'tab' => "#pootlepb-background-row-tab",
-				'callback' => 'pootleSliderSlide',
-				'ActiveClass' => 'Pootle_Slider',
-				'priority' => 5
-			);
-
-			$mods['ninja_forms-form'] = $modules['ninja_forms-form'];
-			$mods['pbtn'] = $modules['pbtn'];
-
-			add_filter( 'pootlepb_enabled_addons', function() {
-				return array( 'pootle-slider', 'pbtn', 'ninja_forms-form', );
-			} );
-
-			add_filter( 'pootlepb_disabled_addons', function() {
-				return array();
-			} );
-		} else {
-			$mods["pootle-slider"] = array(
-				'label' => 'Slider',
-				'icon_class' => 'dashicons dashicons-slides',
-				'tab' => "#pootle-pootle-slider-tab",
-				//'callback' => 'pootleSliderSlide',
-				'ActiveClass' => 'Pootle_Slider',
-				'priority' => 5
-			);
-		}
-		return $mods;
-	}
 }

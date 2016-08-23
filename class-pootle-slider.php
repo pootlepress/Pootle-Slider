@@ -134,8 +134,6 @@ class Pootle_Slider {
 		add_action( 'admin_menu',						array( $this->admin, 'admin_menu' ) );
 		// + New Pootle Slider
 		add_action( 'admin_bar_menu',					array( $this->admin, 'admin_bar_menu' ), 999 );
-		// Slider module
-		add_action( 'pootlepb_modules',					array( $this->admin, 'module' ), 25 );
 		// Post actions
 		add_action( 'post_row_actions',					array( $this->admin, 'post_row_actions' ), 999, 2 );
 		// Template for new pootle slider

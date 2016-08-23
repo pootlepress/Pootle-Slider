@@ -1,7 +1,8 @@
 jQuery( function ( $ ) {
 	var $bd = $( 'body' );
 	if ( $bd.hasClass( 'single-pootle-slider' ) ) {
-		var $ppb = $( '#pootle-page-builder' );
+		var $ppb = $( '#pootle-page-builder' ),
+			$ppb_sli = $( '.pootle-slider-wrap' );
 
 		$( 'body *' )
 			.not( '#pootlepb-modules-wrap, #pootlepb-modules-wrap *' )
@@ -10,11 +11,29 @@ jQuery( function ( $ ) {
 			.not( '.pootlepb-dialog, .pootlepb-dialog *' )
 			.not( '.pootle-slider-wrap, .pootle-slider-wrap *' )
 			.not( '#pootle-page-builder, #pootle-page-builder *' )
-			.not( $('.pootle-slider-wrap').parents() )
-			.not( $ppb.parents() )
+			.not( $ppb_sli.parents() )
+			.not( $ppb.parents().css({
+				margin: 'auto',
+				padding: 'auto',
+				maxWidth: 'none',
+			}) )
 			.hide();
 		$bd.show();
 
+		$ppb_sli.before(
+			$( '<div/>' )
+				.html(
+					'<small>Previewing slider</small>' +
+					'<h2 style="margin:0">' + pootle_slider.title + '</h2>' +
+					"<h3 style='font-weight: 400;margin:0'>Now you can use this slider by selecting <b>'" + pootle_slider.title + "'</b> in pootle slider tab in content block</h3>"
+				)
+				.css( {
+					'text-align': 'center',
+					'background-color': '#eee',
+					margin: '0 -999px',
+					padding: '25px 999px 16px'
+				} )
+		);
 		$ppb.before(
 			$( '<div/>' )
 				.html(
@@ -28,5 +47,5 @@ jQuery( function ( $ ) {
 					padding: '25px 999px 16px'
 				} )
 		);
-	};
+	}
 } );

@@ -29,7 +29,7 @@ class Pootle_Slider_Public{
 	protected $full_width = 1;
 
 	private $defaults = array(
-		'ratio'			=> '56.25',
+		'ratio'			=> 56.25,
 		'full_width'    => '',
 	);
 
@@ -69,8 +69,12 @@ class Pootle_Slider_Public{
 
 		wp_enqueue_style( $token . '-css', $url . '/assets/front-end.css' );
 		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery', ) );
-		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-editing.js', array( 'jquery', 'pootle-live-editor', ) );
+		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-ed.js', array( 'jquery', 'pootle-live-editor' ) );
 		wp_enqueue_script( 'ppb-flex-slider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
+
+		wp_localize_script( $token . '-js', 'pootle_slider', array(
+			'title' => get_the_title(),
+		) );
 	}
 
 	/**
@@ -148,7 +152,7 @@ class Pootle_Slider_Public{
 		}
 
 		return /** @lang html */
-			<<<SCRIPT
+<<<SCRIPT
 		<script id='$id-script'>
 			jQuery( function( $ ) {
 
@@ -167,10 +171,13 @@ SCRIPT;
 
 	private function style( $id ) {
 		$ratio = $this->ratio;
+
+		if ( $ratio == 56.25 || ! $ratio ) return '';
+
 		$ratio160p = $ratio * 1.60;
 		$ratio250p = $ratio * 2.5;
 		return /** @lang html */
-		<<<STYLE
+<<<STYLE
 		<style id="$id-style">
 			#$id .pootle-slide .panel-row-style{padding-top: 160%;}
 			@media screen and (min-width:475px) {
