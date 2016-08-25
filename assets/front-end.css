@@ -7,6 +7,9 @@
 .single-pootle-slider {
 	display: none;
 }
+body.single-pootle-slider * {
+	max-width: none !important;
+}
 .single-pootle-slider .panel-grid:after {
 	margin-right: -999px;
 	margin-left: -999px;

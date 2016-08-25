@@ -12,11 +12,12 @@ jQuery( function ( $ ) {
 			.not( '.pootle-slider-wrap, .pootle-slider-wrap *' )
 			.not( '#pootle-page-builder, #pootle-page-builder *' )
 			.not( $ppb_sli.parents() )
-			.not( $ppb.parents().css({
+			.not( $ppb.parents().css( {
 				margin: 'auto',
 				padding: 'auto',
-				maxWidth: 'none',
-			}) )
+				width: 'auto',
+				float: 'none'
+			} ) )
 			.hide();
 		$bd.show();
 
@@ -25,7 +26,7 @@ jQuery( function ( $ ) {
 				.html(
 					'<small>Previewing slider</small>' +
 					'<h2 style="margin:0">' + pootle_slider.title + '</h2>' +
-					"<h3 style='font-weight: 400;margin:0'>Now you can use this slider by selecting <b>'" + pootle_slider.title + "'</b> in pootle slider tab in content block</h3>"
+					"<h3 style='font-weight: 400;margin:0'>Now you can use this slider in your pages or your posts</h3>"
 				)
 				.css( {
 					'text-align': 'center',
