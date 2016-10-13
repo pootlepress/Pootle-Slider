@@ -20,6 +20,9 @@ Provides you the full control over each slider create columns, add buttons, back
 
 Poole slider allows full control over slides, powered by Pootle Pagebuilder it converts page builder rows to slides, offering advanced control over each slide!
 
+Watch Pootle Slider in action!
+https://vimeo.com/180052796
+
 @todo Add video here
 
 == Installation ==

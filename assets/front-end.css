@@ -7,7 +7,7 @@
 .single-pootle-slider {
 	display: none;
 }
-body.single-pootle-slider * {
+body.single-pootle-slider *:not('.ppb-block') {
 	max-width: none !important;
 }
 .single-pootle-slider .panel-grid:after {
@@ -17,7 +17,7 @@ body.single-pootle-slider * {
 	display: block;
 }
 .single.single-pootle-slider #content .col-full {
-	max-width: 65.141em;
+	max-width: none;
 }
 .pootle-slide .ppb-block:hover {
 	outline: none;
