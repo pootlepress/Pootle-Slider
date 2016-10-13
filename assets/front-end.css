@@ -7,7 +7,7 @@
 .single-pootle-slider {
 	display: none;
 }
-body.single-pootle-slider *:not('.ppb-block') {
+body.single-pootle-slider *:not(.ppb-block) {
 	max-width: none !important;
 }
 .single-pootle-slider .panel-grid:after {

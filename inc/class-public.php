@@ -67,9 +67,9 @@ class Pootle_Slider_Public{
 		$token = $this->token;
 		$url = $this->url;
 
-		wp_enqueue_style( $token . '-css', $url . '/assets/front-end.css' );
-		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery', ) );
-		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-ed.js', array( 'jquery', 'pootle-live-editor' ) );
+		wp_enqueue_style( $token . '-css', $url . '/assets/front-end.css', array(), $this->version );
+		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery', ), $this->version );
+		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-ed.js', array( 'jquery', 'pootle-live-editor' ), $this->version );
 		wp_enqueue_script( 'ppb-flex-slider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
 
 		wp_localize_script( $token . '-js', 'pootle_slider', array(
