@@ -131,9 +131,10 @@ class Pootle_Slider_Admin{
 
 		if( 'pootle-slider' == $post->post_type ) {
 			if ( ! empty( $actions['edit'] ) ) {
-				$nonce_url = wp_nonce_url( get_the_permalink( $post->ID ), 'ppb-live-' . $post->ID, 'ppbLiveEditor' );
+				$nonce_url = wp_nonce_url( get_the_permalink( $post->ID ), 'ppb-live-edit-nonce', 'ppbLiveEditor' );
 
-				$actions['edit'] = '<a href="' . $nonce_url . '" aria-label="Edit “Home”">Edit</a>';
+				$actions['edit'] = '<a href="' . $nonce_url . '" aria-label="Edit “Home”">Live edit</a>';
+				unset( $actions['inline hide-if-no-js'] );
 			}
 		}
 		return $actions;
