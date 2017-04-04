@@ -205,7 +205,7 @@ class Pootle_Slider_Public {
 		return /** @lang html */
 			<<<STYLE
 					<style id="$id-style">
-			#$id .pootle-slide .panel-row-style{padding-top: {$ratio250p}%;min-height:0!important;}
+			#$id .pootle-slide .panel-row-style{padding-top: {$ratio250p}%;}
 			@media screen and (min-width:475px) {
 				#$id .pootle-slide .panel-row-style{padding-top: {$ratio2x}%;}
 			}

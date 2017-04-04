@@ -78,6 +78,8 @@
 }
 
 #pootle-page-builder .panel-grid .panel-row-style {
+	min-height: 0 !important;
+	background-position: center;
 	overflow: visible;
 }
 

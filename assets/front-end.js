@@ -22,7 +22,7 @@ jQuery( function ( $ ) {
 			.hide();
 		$bd.show();
 
-		$( '#ps-slide-height' ).change( function(){
+		$( '#ps-slide-height' ).on('change input', function(){
 			var val = this.value;
 			$( '#ps-height-css' ).html(
 				'#pootle-page-builder .panel-grid .panel-row-style {min-height:' + ( val * 10 ) + 'vw !important;}'
