@@ -148,7 +148,6 @@ class Pootle_Slider_Public {
 		);
 
 		$class = 'pootle-slider-wrap pootle-slider-transparent';
-		var_dump( $this->full_width );
 		$class .= $this->full_width ? ' ppb-stretch-full-width' : '';
 
 		return
@@ -194,7 +193,6 @@ class Pootle_Slider_Public {
 
 		if ( ! $ratio ) {
 			$ratio = get_post_meta( $post_id, 'pootle-slider-height', true );
-			var_dump( $ratio );
 			$ratio = $ratio ? $ratio * 10 : 56.25;
 		}
 
