@@ -148,6 +148,7 @@ class Pootle_Slider_Public {
 		);
 
 		$class = 'pootle-slider-wrap pootle-slider-transparent';
+		var_dump( $this->full_width );
 		$class .= $this->full_width ? ' ppb-stretch-full-width' : '';
 
 		return
@@ -171,7 +172,7 @@ class Pootle_Slider_Public {
 			<div class="right">
 				<div class="height">
 					<i class="dashicons dashicons-leftright"></i>Row height:
-					<input id="ps-slide-height" type="range" min="1" max="20" step="0.1" value="<?php echo $height ?>">
+					<input id="ps-slide-height" type="range" min="1" max="10" step="0.5" value="<?php echo $height ?>">
 					<span class="value"><?php echo $height ?></span>
 				</div>
 			</div>

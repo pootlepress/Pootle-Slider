@@ -102,19 +102,14 @@
 .pootle-slide {
 	.panel-grid-cell-container {
 		position: absolute;
-		/* Vertical align middle
-		top: 50%;
-		transform: translateY(-50%);
-		*/
 		top: 0;
 		left: 0;
 		right: 0;
 		display: block !important;
 		margin: 16px;
+		height: 100%;
 		.panel-grid-cell {
-			/* Vertical align middle
-			vertical-align: middle !important
-			*/
+			height: 100%;
 		}
 	}
 	.ppb-block * {
