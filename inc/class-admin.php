@@ -86,7 +86,7 @@ class Pootle_Slider_Admin{
 			'show_in_nav_menus'   => false,
 			'can_export'          => true,
 			'has_archive'         => false,
-			'exclude_from_search' => true,
+			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'capability_type'     => 'page',
 		);
@@ -266,8 +266,9 @@ class Pootle_Slider_Admin{
 			'name' => 'Height as a percentage of width',
 			'type' => 'select',
 			'options'  => array(
+				'' => 'Same as design',
 				'75' => '4:3 Standard Definition',
-				'' => '16:9 High Definition',
+				'56' => '16:9 High Definition',
 				'33.33' => '21:9 Cinematic',
 			),
 			'priority' => 20,

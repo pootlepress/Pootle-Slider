@@ -7,7 +7,7 @@
  * @property string $path Plugin root dir path
  * @property string $version Plugin version
  */
-class Pootle_Slider_Public{
+class Pootle_Slider_Public {
 
 	/** @var Pootle_Slider_Public Instance */
 	private static $_instance = null;
@@ -29,9 +29,21 @@ class Pootle_Slider_Public{
 	protected $full_width = 1;
 
 	private $defaults = array(
-		'ratio'			=> 56.25,
-		'full_width'    => '',
+		'ratio'      => '',
+		'full_width' => '',
 	);
+
+	/**
+	 * Constructor function.
+	 * @access  private
+	 * @since   1.0.0
+	 */
+	private function __construct() {
+		$this->token   = Pootle_Slider::$token;
+		$this->url     = Pootle_Slider::$url;
+		$this->path    = Pootle_Slider::$path;
+		$this->version = Pootle_Slider::$version;
+	} // End instance()
 
 	/**
 	 * Main Pootle Slider Instance
@@ -43,19 +55,8 @@ class Pootle_Slider_Public{
 		if ( null == self::$_instance ) {
 			self::$_instance = new self();
 		}
-		return self::$_instance;
-	} // End instance()
 
-	/**
-	 * Constructor function.
-	 * @access  private
-	 * @since   1.0.0
-	 */
-	private function __construct() {
-		$this->token   =   Pootle_Slider::$token;
-		$this->url     =   Pootle_Slider::$url;
-		$this->path    =   Pootle_Slider::$path;
-		$this->version =   Pootle_Slider::$version;
+		return self::$_instance;
 	} // End __construct()
 
 	/**
@@ -65,11 +66,14 @@ class Pootle_Slider_Public{
 	 */
 	public function enqueue() {
 		$token = $this->token;
-		$url = $this->url;
+		$url   = $this->url;
 
 		wp_enqueue_style( $token . '-css', $url . '/assets/front-end.css', array(), $this->version );
 		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery', ), $this->version );
-		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-ed.js', array( 'jquery', 'pootle-live-editor' ), $this->version );
+		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-ed.js', array(
+			'jquery',
+			'pootle-live-editor'
+		), $this->version );
 		wp_enqueue_script( 'ppb-flex-slider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
 
 		wp_localize_script( $token . '-js', 'pootle_slider', array(
@@ -79,13 +83,15 @@ class Pootle_Slider_Public{
 
 	/**
 	 * Adds or modifies the row attributes
+	 *
 	 * @param array $cb Content block settings
+	 *
 	 * @action pootlepb_content_block
 	 * @since 1.0.0
 	 */
 	public function content_block( $cb ) {
 		$settings = json_decode( $cb['info']['style'], true );
-		if ( ! empty( $settings["{$this->token}-id"]) ) {
+		if ( ! empty( $settings["{$this->token}-id"] ) ) {
 			$this->get_properties( $settings );
 			Pootle_Page_Builder_Live_Editor_Public::deactivate_le();
 			echo Pootle_Page_Builder_Render_Layout::render( $this->id );
@@ -99,7 +105,9 @@ class Pootle_Slider_Public{
 				$k = str_replace( $pre, '', $k );
 				if ( 0 === strpos( $k, 'js_' ) ) {
 					$k = str_replace( 'js_', '', $k );
-					if ( $v ) $this->js_props[ $k ] = $v;
+					if ( $v ) {
+						$this->js_props[ $k ] = $v;
+					}
 				} else {
 					$this->$k = $v ? $v : $this->defaults[ $k ];
 				}
@@ -112,11 +120,14 @@ class Pootle_Slider_Public{
 	 *
 	 * @param string $ppb_html
 	 * @param int $post_id
+	 *
 	 * @return string
 	 */
 	public function render_slider_preview( $ppb_html, $post_id ) {
-		if ( 'pootle-slider' != get_post_type( $post_id ) || Pootle_Page_Builder_Live_Editor_Public::is_active() ) {
+		if ( 'pootle-slider' != get_post_type( $post_id ) ) {
 			return $ppb_html;
+		} elseif ( Pootle_Page_Builder_Live_Editor_Public::is_active() ) {
+			return $this->prependLiveEditorBar( $post_id ) . $ppb_html;
 		}
 
 		$id = "pootle-slider-$post_id";
@@ -140,9 +151,71 @@ class Pootle_Slider_Public{
 		$class .= $this->full_width ? ' ppb-stretch-full-width' : '';
 
 		return
-			$this->style( $id ) .
+			$this->prependPreviewBar( $post_id ) .
+			$this->style( $id, $post_id ) .
 			"<div class='$class' id='{$id}-wrap'>$pb</div>" .
-			$this->script( $id );
+			$this->script( $id, $post_id );
+	}
+
+	function pootlepb_save_post( $data, $post_id ) {
+		if ( ! empty( $_POST['pootle_slider_height'] ) ) {
+			update_post_meta( $post_id, 'pootle-slider-height', $_POST['pootle_slider_height'] );
+		}
+	}
+
+	private function prependLiveEditorBar( $post_id ) {
+		$height = get_post_meta( $post_id, 'pootle-slider-height', true );
+		$height = $height ? $height : 4.3;
+		?>
+		<div id="ps-bar"><span class="ps-bar-head">Pootle Slider live designer</span>
+			<div class="right">
+				<div class="height">
+					<i class="dashicons dashicons-leftright"></i>Row height:
+					<input id="ps-slide-height" type="range" min="1" max="20" step="0.1" value="<?php echo $height ?>">
+					<span class="value"><?php echo $height ?></span>
+				</div>
+			</div>
+		</div>
+		<style id="ps-height-css">
+			#pootle-page-builder .panel-grid .panel-row-style {
+				min-height: <?php echo $height * 10 ?>vw !important;
+			}
+		</style>
+		<?php
+	}
+
+	private function prependPreviewBar() {
+
+	}
+
+	private function style( $id, $post_id ) {
+		$ratio = $this->ratio;
+
+		if ( ! $ratio ) {
+			$ratio = get_post_meta( $post_id, 'pootle-slider-height', true );
+			var_dump( $ratio );
+			$ratio = $ratio ? $ratio * 10 : 56.25;
+		}
+
+		$ratio160p = $ratio * 1.40;
+		$ratio2x = $ratio * 2;
+		$ratio250p = $ratio * 2.5;
+
+		return /** @lang html */
+			<<<STYLE
+					<style id="$id-style">
+			#$id .pootle-slide .panel-row-style{padding-top: {$ratio250p}%;min-height:0!important;}
+			@media screen and (min-width:475px) {
+				#$id .pootle-slide .panel-row-style{padding-top: {$ratio2x}%;}
+			}
+			@media screen and (min-width:520px) {
+				#$id .pootle-slide .panel-row-style{padding-top: {$ratio160p}%;}
+			}
+			@media screen and (min-width:800px) {
+				#$id .pootle-slide .panel-row-style{padding-top: {$ratio}%;}
+			}
+		</style>
+STYLE;
 	}
 
 	private function script( $id ) {
@@ -152,8 +225,8 @@ class Pootle_Slider_Public{
 		}
 
 		return /** @lang html */
-<<<SCRIPT
-		<script id='$id-script'>
+			<<<SCRIPT
+					<script id='$id-script'>
 			jQuery( function( $ ) {
 
 				var playvids = function ( slider ) {
@@ -167,29 +240,5 @@ class Pootle_Slider_Public{
 			} );
 		</script>
 SCRIPT;
-	}
-
-	private function style( $id ) {
-		$ratio = $this->ratio;
-
-		if ( $ratio == 56.25 || ! $ratio ) return '';
-
-		$ratio160p = $ratio * 1.60;
-		$ratio250p = $ratio * 2.5;
-		return /** @lang html */
-<<<STYLE
-		<style id="$id-style">
-			#$id .pootle-slide .panel-row-style{padding-top: 160%;}
-			@media screen and (min-width:475px) {
-				#$id .pootle-slide .panel-row-style{padding-top: {$ratio250p}%;}
-			}
-			@media screen and (min-width:520px) {
-				#$id .pootle-slide .panel-row-style{padding-top: {$ratio160p}%;}
-			}
-			@media screen and (min-width:800px) {
-				#$id .pootle-slide .panel-row-style{padding-top: {$ratio}%;}
-			}
-		</style>
-STYLE;
 	}
 }

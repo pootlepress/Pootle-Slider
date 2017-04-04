@@ -160,6 +160,7 @@ class Pootle_Slider {
 		add_action( 'pootlepb_render_content_block',	array( $this->public, 'content_block' ), 52, 4 );
 		// Slider preview after publish
 		add_filter( 'pootlepb_render',					array( $this->public, 'render_slider_preview' ), 25, 2 );
+		add_filter( 'pootlepb_save_post',					array( $this->public, 'pootlepb_save_post' ), 25, 2 );
 
 	} // End enqueue()
 

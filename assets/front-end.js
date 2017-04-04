@@ -5,6 +5,7 @@ jQuery( function ( $ ) {
 			$ppb_sli = $( '.pootle-slider-wrap' );
 
 		$( 'body *' )
+			.not( '#ps-bar, #ps-bar *')
 			.not( '#pootlepb-modules-wrap, #pootlepb-modules-wrap *' )
 			.not( '#wpadminbar, #wpadminbar *' )
 			.not( '.ppb-widget, .ppb-widget *' )
@@ -21,25 +22,22 @@ jQuery( function ( $ ) {
 			.hide();
 		$bd.show();
 
+		$( '#ps-slide-height' ).change( function(){
+			var val = this.value;
+			$( '#ps-height-css' ).html(
+				'#pootle-page-builder .panel-grid .panel-row-style {min-height:' + ( val * 10 ) + 'vw !important;}'
+			);
+			$( this ).siblings('.value').html( val );
+			ppbAjax.pootle_slider_height = val;
+		} );
+
 		$ppb_sli.before(
 			$( '<div/>' )
+				.attr( 'id', 'ps-bar' )
 				.html(
 					'<small>Previewing slider</small>' +
 					'<h2 style="margin:0">' + pootle_slider.title + '</h2>' +
 					"<h3 style='font-weight: 400;margin:0'>Now you can use this slider in your pages or your posts</h3>"
-				)
-				.css( {
-					'text-align': 'center',
-					'background-color': '#eee',
-					margin: '0 -999px',
-					padding: '25px 999px 16px'
-				} )
-		);
-		$ppb.before(
-			$( '<div/>' )
-				.html(
-					'<h1 style="margin:0">Welcome to the Pootle Slider live designer.</h1>' +
-					"<h2 style='margin:0'>Start by dragging the 'New Slide' module over the + new icon.</h2>"
 				)
 				.css( {
 					'text-align': 'center',
