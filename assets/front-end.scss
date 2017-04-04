@@ -76,11 +76,13 @@
 		padding-top: 56.25%;
 	}
 }
+.pootle-slider-wrap .pootle-slide .panel-row-style {
+	background-position: center;
+	overflow: visible;
+}
 
 #pootle-page-builder .panel-grid .panel-row-style {
 	min-height: 0 !important;
-	background-position: center;
-	overflow: visible;
 }
 
 .pootle-slider-wrap.ppb-stretch-full-width {

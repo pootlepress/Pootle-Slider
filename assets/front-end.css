@@ -53,10 +53,12 @@
 @media screen and (min-width: 800px) {
   .pootle-slider-wrap .pootle-slide .panel-row-style {
     padding-top: 56.25%; } }
-#pootle-page-builder .panel-grid .panel-row-style {
-  min-height: 0 !important;
+.pootle-slider-wrap .pootle-slide .panel-row-style {
   background-position: center;
   overflow: visible; }
+
+#pootle-page-builder .panel-grid .panel-row-style {
+  min-height: 0 !important; }
 
 .pootle-slider-wrap.ppb-stretch-full-width {
   padding-left: 0 !important;
@@ -287,4 +289,3 @@
   .pootle-slider-wrap .flex-direction-nav .flex-next {
     right: 25px; } }
 
-/*# sourceMappingURL=front-end.css.map */
