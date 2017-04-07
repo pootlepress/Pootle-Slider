@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-.single.single-pootle-slider {
+.single-pootle-slider {
 	display: none;
 	#ps-bar {
 		font: 16px sans-serif;
@@ -81,7 +81,8 @@
 	overflow: visible;
 }
 
-#pootle-page-builder .panel-grid .panel-row-style {
+.single.single-pootle-slider .panel-row-style,
+.pootle-slider-wrap .panel-row-style {
 	min-height: 0 !important;
 }
 
@@ -103,7 +104,12 @@
 	margin: 16px;
 }
 
-.pootle-slide {
+.single.single-pootle-slider .pootle-slide {
+	max-width: 100vw !important;
+}
+
+	.pootle-slide {
+	max-width: 100vw;
 	.panel-grid-cell-container {
 		position: absolute;
 		top: 0;
@@ -137,6 +143,7 @@
 
 
 .pootle-slider-wrap {
+	max-width: 100vw;
 	-webkit-transition: opacity 0.5s;
 	transition: opacity 0.5s;
 	position: relative;
@@ -241,6 +248,10 @@
 	-ms-transition: all .3s ease-in-out;
 	-o-transition: all .3s ease-in-out;
 	transition: all .3s ease-in-out;
+}
+
+#pootle-page-builder .panel-grid .panel-row-style {
+	overflow: visible;
 }
 
 .pootle-slider-wrap {

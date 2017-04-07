@@ -124,7 +124,7 @@ class Pootle_Slider_Public {
 	 * @return string
 	 */
 	public function render_slider_preview( $ppb_html, $post_id ) {
-		if ( 'pootle-slider' != get_post_type( $post_id ) ) {
+		if ( 'pootle-slider' != get_post_type( $post_id ) || ! did_action( 'wp_head' ) ) {
 			return $ppb_html;
 		} elseif ( Pootle_Page_Builder_Live_Editor_Public::is_active() ) {
 			return $this->prependLiveEditorBar( $post_id ) . $ppb_html;
@@ -188,7 +188,10 @@ class Pootle_Slider_Public {
 
 	}
 
-	private function style( $id, $post_id ) {
+	private function style( $id ) {
+	}
+
+	private function get_ratio( $post_id ) {
 		$ratio = $this->ratio;
 
 		if ( ! $ratio ) {
@@ -196,48 +199,17 @@ class Pootle_Slider_Public {
 			$ratio = $ratio ? $ratio * 10 : 56.25;
 		}
 
-		$ratio160p = $ratio * 1.40;
-		$ratio2x = $ratio * 2;
-		$ratio250p = $ratio * 2.5;
-
-		return /** @lang html */
-			<<<STYLE
-					<style id="$id-style">
-			#$id .pootle-slide .panel-row-style{padding-top: {$ratio250p}%;}
-			@media screen and (min-width:475px) {
-				#$id .pootle-slide .panel-row-style{padding-top: {$ratio2x}%;}
-			}
-			@media screen and (min-width:520px) {
-				#$id .pootle-slide .panel-row-style{padding-top: {$ratio160p}%;}
-			}
-			@media screen and (min-width:800px) {
-				#$id .pootle-slide .panel-row-style{padding-top: {$ratio}%;}
-			}
-		</style>
-STYLE;
+		return $ratio;
 	}
 
-	private function script( $id ) {
-		$js_props = 'start : playvids,selector  : ".pootle-slider > .pootle-slide"';
+	private function script( $id, $post_id ) {
+		$ratio = $this->get_ratio( $post_id );
+
+		$js_props = '{start : playvids,selector  : ".pootle-slider > .pootle-slide"';
 		foreach ( $this->js_props as $p => $v ) {
-			$js_props .= ",$p : $v";
+			$js_props .= ",$p:$v";
 		}
-
-		return /** @lang html */
-			<<<SCRIPT
-					<script id='$id-script'>
-			jQuery( function( $ ) {
-
-				var playvids = function ( slider ) {
-					slider.removeClass( 'pootle-slider-transparent' );
-					slider.find( 'video' ).each( function () {
-						$( this )[0].play();
-					} );
-				};
-
-				$( '#$id-wrap' ).flexslider( { $js_props } );
-			} );
-		</script>
-SCRIPT;
+		$js_props .= '}';
+		return "<script id='$id-script'>jQuery(function(){ window.pootleSliderInit( '#$id-wrap', $js_props, $ratio ); });</script>";
 	}
 }

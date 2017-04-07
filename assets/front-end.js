@@ -1,4 +1,46 @@
+function playvids( slider ) {
+	slider.removeClass( 'pootle-slider-transparent' );
+	slider.find( 'video' ).each( function () {
+		$( this )[0].play();
+	} );
+}
+( function ( $ ) {
+	pootleSliderInit = function( s, props, ratio ) {
+		var $t = $( s ),width;
+		width = Math.min( $t.innerWidth(), window.innerWidth );
+
+		setTimeout( function(){
+			$t.removeClass( 'pootle-slider-transparent' );
+
+			$t.find( '.ppb-row' ).each( function () {
+
+				var
+					$row = $( this ),
+					hi = 0;
+
+				$row.find( '.ppb-block' ).each( function () {
+					if( hi < $( this ).outerHeight() ) {
+						hi =  $( this ).outerHeight();
+					}
+				} );
+
+				hi += 50;
+				var cellRatio = hi * 100/width;
+
+				console.log( hi, width, cellRatio, ratio, cellRatio > ratio );
+				if ( cellRatio > ratio ) {
+					ratio = cellRatio;
+				}
+
+			} );
+			$t.find( '.ppb-row' ).css( 'padding-top', ratio + '%' );
+			$t.flexslider( props );
+		}, 350 );
+	}
+} )( jQuery );
+
 jQuery( function ( $ ) {
+
 	var $bd = $( 'body' );
 	if ( $bd.hasClass( 'single-pootle-slider' ) ) {
 		var $ppb = $( '#pootle-page-builder' ),
