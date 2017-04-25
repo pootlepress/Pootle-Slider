@@ -124,7 +124,7 @@ class Pootle_Slider_Public {
 	 * @return string
 	 */
 	public function render_slider_preview( $ppb_html, $post_id ) {
-		if ( 'pootle-slider' != get_post_type( $post_id ) || ! did_action( 'wp_head' ) ) {
+		if ( 'pootle-slider' != get_post_type( $post_id ) || ! ( did_action( 'wp_head' ) || DOING_AJAX ) ) {
 			return $ppb_html;
 		} elseif ( Pootle_Page_Builder_Live_Editor_Public::is_active() ) {
 			return $this->prependLiveEditorBar( $post_id ) . $ppb_html;
@@ -152,7 +152,6 @@ class Pootle_Slider_Public {
 
 		return
 			$this->prependPreviewBar( $post_id ) .
-			$this->style( $id, $post_id ) .
 			"<div class='$class' id='{$id}-wrap'>$pb</div>" .
 			$this->script( $id, $post_id );
 	}
@@ -184,12 +183,7 @@ class Pootle_Slider_Public {
 		<?php
 	}
 
-	private function prependPreviewBar() {
-
-	}
-
-	private function style( $id ) {
-	}
+	private function prependPreviewBar() {}
 
 	private function get_ratio( $post_id ) {
 		$ratio = $this->ratio;
@@ -210,6 +204,6 @@ class Pootle_Slider_Public {
 			$js_props .= ",$p:$v";
 		}
 		$js_props .= '}';
-		return "<script id='$id-script'>jQuery(function(){ window.pootleSliderInit( '#$id-wrap', $js_props, $ratio ); });</script>";
+		return "<script id='$id-script'>window.pootleSliderInit( '#$id-wrap', $js_props, $ratio );</script>";
 	}
 }
