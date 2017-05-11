@@ -9,7 +9,7 @@ Author: PootlePress
 Donate link:
 Requires at least: 4.1.0
 Tested up to: 4.7
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -65,6 +65,17 @@ We encourage everyone to contribute their ideas, thoughts and code snippets. Thi
 Initial release
 
 == Changelog ==
-= 0.1 =
-* 2015-07-06
+
+= 1.1.0 =
+* 2017-05-11
+* New - Custom slider ratios can be set while designing
+* Tweak - CSS generated minified from SASS
+* Tweak - Hidden from search
+
+= 1.0.1 =
+* 2016-10-13
+* Minor bug fixes
+
+= 1.0.0 =
+* 2016-08-16
 * Initial release. It's alive!
