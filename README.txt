@@ -9,7 +9,7 @@ Author: PootlePress
 Donate link:
 Requires at least: 4.1.0
 Tested up to: 4.7
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,6 +63,10 @@ We encourage everyone to contribute their ideas, thoughts and code snippets. Thi
 Initial release
 
 == Changelog ==
+
+= 1.1.1 =
+* 2017-05-11
+* Fix - Yoast SEO compatibility
 
 = 1.1.0 =
 * 2017-05-11

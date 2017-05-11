@@ -33,6 +33,9 @@ class Pootle_Slider_Public {
 		'full_width' => '',
 	);
 
+	/** @var bool Whether or not live editor bar has been rendered */
+	private $live_editor_bar_rendered = false;
+
 	/**
 	 * Constructor function.
 	 * @access  private
@@ -124,7 +127,7 @@ class Pootle_Slider_Public {
 	 * @return string
 	 */
 	public function render_slider_preview( $ppb_html, $post_id ) {
-		if ( 'pootle-slider' != get_post_type( $post_id ) || ! ( did_action( 'wp_head' ) || DOING_AJAX ) ) {
+		if ( 'pootle-slider' != get_post_type( $post_id ) || doing_action('wp_head' ) || ! ( did_action( 'wp_head' ) || DOING_AJAX ) ) {
 			return $ppb_html;
 		} elseif ( Pootle_Page_Builder_Live_Editor_Public::is_active() ) {
 			return $this->prependLiveEditorBar( $post_id ) . $ppb_html;
@@ -163,6 +166,13 @@ class Pootle_Slider_Public {
 	}
 
 	private function prependLiveEditorBar( $post_id ) {
+
+		if ( $this->live_editor_bar_rendered ) {
+			return;
+		}
+
+		$this->live_editor_bar_rendered = 1;
+
 		$height = get_post_meta( $post_id, 'pootle-slider-height', true );
 		$height = $height ? $height : 4.3;
 		?>

@@ -4,7 +4,7 @@ Plugin Name: Pootle Slider
 Plugin URI: http://pootlepress.com/
 Description: The amazing Pootle slider
 Author: pootlepress
-Version: 1.1.0
+Version: 1.1.1
 Author URI: http://pootlepress.com/
 @developer shramee <shramee.srivastav@gmail.com>
 */

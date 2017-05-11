@@ -92,7 +92,7 @@ class Pootle_Slider {
 		self::$file    =   $file;
 		self::$url     =   plugin_dir_url( $file );
 		self::$path    =   plugin_dir_path( $file );
-		self::$version =   '1.1.0';
+		self::$version =   '1.1.1';
 
 		//Instantiating admin class
 		$this->admin = Pootle_Slider_Admin::instance();
