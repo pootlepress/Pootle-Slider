@@ -23,8 +23,6 @@ Poole slider allows full control over slides, powered by Pootle Pagebuilder it c
 Watch Pootle Slider in action!
 https://vimeo.com/180052796
 
-@todo Add video here
-
 == Installation ==
 
 Installing "Pootle Slider” can be done either by searching for "Pootle Slider" via the "Plugins > Add New" screen in your WordPress dashboard, or by using the following steps:
