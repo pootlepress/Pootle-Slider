@@ -36,7 +36,7 @@
 			display: block;
 		}
 	}
-	*:not(.ppb-block) {
+	*:not(.ppb-block):not(.panels-tooltip) {
 		max-width: none !important;
 	}
 	.panel-grid:after {
@@ -47,6 +47,8 @@
 	}
 	#content .col-full {
 		max-width: none;
+		padding: 0;
+		margin: 0;
 	}
 
 }
