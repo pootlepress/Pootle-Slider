@@ -8,8 +8,8 @@ Author URI: http://www.pootlepress.com
 Author: PootlePress
 Donate link:
 Requires at least: 4.1.0
-Tested up to: 4.7
-Stable tag: 1.1.1
+Tested up to: 4.9.alpha
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,6 +63,11 @@ We encourage everyone to contribute their ideas, thoughts and code snippets. Thi
 Initial release
 
 == Changelog ==
+
+= 1.2.0 =
+* 2017-09-28
+* Fix - Unsplash tooltip not readable
+* Fix - Slider slides not showing full width in editor
 
 = 1.1.1 =
 * 2017-05-11
