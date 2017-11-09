@@ -77,7 +77,7 @@ class Pootle_Slider_Public {
 			'jquery',
 			'pootle-live-editor'
 		), $this->version );
-		wp_enqueue_script( 'ppb-flex-slider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
+		wp_enqueue_script( 'flexslider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
 
 		wp_localize_script( $token . '-js', 'pootle_slider', array(
 			'title' => get_the_title(),
@@ -154,8 +154,9 @@ class Pootle_Slider_Public {
 		$class .= $this->full_width ? ' ppb-stretch-full-width' : '';
 
 		return
-			$this->prependPreviewBar( $post_id ) .
-			"<div class='$class' id='{$id}-wrap'>$pb</div>" .
+			"<div class='$class' id='{$id}-wrap'>$pb" .
+			$this->maybe_show_edit_link( $post_id ) .
+			'</div>' .
 			$this->script( $id, $post_id );
 	}
 
@@ -193,8 +194,6 @@ class Pootle_Slider_Public {
 		<?php
 	}
 
-	private function prependPreviewBar() {}
-
 	private function get_ratio( $post_id ) {
 		$ratio = $this->ratio;
 
@@ -215,5 +214,24 @@ class Pootle_Slider_Public {
 		}
 		$js_props .= '}';
 		return "<script id='$id-script'>window.pootleSliderInit( '#$id-wrap', $js_props, $ratio );</script>";
+	}
+
+	/**
+
+	 * Adds edit slider link on live edit screen when user is logged in
+	 * @param int $post_id Slider id
+	 * @return string Edit link html
+	 */
+	private function maybe_show_edit_link( $post_id ) {
+
+		if ( is_user_logged_in() && filter_input( INPUT_GET, 'ppbLiveEditor' ) ) {
+
+			$nonce_url = wp_nonce_url( get_the_permalink( $post_id ), 'ppb-live-edit-nonce', 'ppbLiveEditor' );
+
+			return '<a target="_blank" class="edit-pootle-slider" href="' . $nonce_url . '">Edit slider</a>';
+
+		}
+
+		return '';
 	}
 }

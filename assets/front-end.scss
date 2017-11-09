@@ -144,12 +144,32 @@
 	font-style: normal;
 }
 
-
 .pootle-slider-wrap {
 	max-width: 100vw;
 	-webkit-transition: opacity 0.5s;
 	transition: opacity 0.5s;
 	position: relative;
+	overflow: hidden;
+	a.edit-pootle-slider {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 9;
+		font: 35px sans-serif;
+		color: #fff;
+		transform: translate(-50%, -50%);
+		background: rgba(0,0,0,0.5);
+		box-shadow: 0 0 0 999px rgba(0,0,0,0.5);
+		opacity: 0;
+	}
+	&:hover {
+		a.edit-pootle-slider {
+			&, &:hover {
+				opacity: 1;
+				bottom: auto;
+			}
+		}
+	}
 	&:after {
 		content: '';
 		display: block;
