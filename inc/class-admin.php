@@ -40,6 +40,12 @@ class Pootle_Slider_Admin{
 		$this->version =   Pootle_Slider::$version;
 	} // End __construct()
 
+	public function enqueue() {
+		if ( filter_input( INPUT_GET, 'post_type' ) === 'pootle-slider' ) {
+			wp_enqueue_style( $this->token . '-js', $this->url . '/assets/admin.css', null, $this->version );
+		}
+	}
+
 	/**
 	 * Creates pootle slider post type
 	 * @action init

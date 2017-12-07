@@ -146,6 +146,8 @@ class Pootle_Slider {
 		add_filter( 'pootlepb_le_content_block_tabs',	array( $this->admin, 'content_block_tabs' ) );
 		//Content block panel fields
 		add_filter( 'pootlepb_content_block_fields',	array( $this->admin, 'content_block_fields' ) );
+		// Adding admin end JS and CSS in /assets folder
+		add_action( 'admin_enqueue_scripts',				array( $this->admin, 'enqueue' ) );
 
 	}
 

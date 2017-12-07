@@ -154,20 +154,18 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		z-index: 9;
+		z-index: 97;
 		font: 35px sans-serif;
 		color: #fff;
 		transform: translate(-50%, -50%);
 		background: rgba(0,0,0,0.5);
 		box-shadow: 0 0 0 999px rgba(0,0,0,0.5);
-		opacity: 0;
+		opacity: .25;
 	}
 	&:hover {
-		a.edit-pootle-slider {
-			&, &:hover {
-				opacity: 1;
-				bottom: auto;
-			}
+		a.edit-pootle-slider, a.edit-pootle-slider:hover {
+			opacity: 1;
+			bottom: auto;
 		}
 	}
 	&:after {

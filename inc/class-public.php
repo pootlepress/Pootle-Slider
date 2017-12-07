@@ -72,10 +72,10 @@ class Pootle_Slider_Public {
 		$url   = $this->url;
 
 		wp_enqueue_style( $token . '-css', $url . '/assets/front-end.css', array(), $this->version );
-		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery', ), $this->version );
+		wp_enqueue_script( $token . '-js', $url . '/assets/front-end.js', array( 'jquery', 'flexslider', ), $this->version );
 		wp_enqueue_script( $token . '-le-js', $url . '/assets/live-ed.js', array(
 			'jquery',
-			'pootle-live-editor'
+			'pootle-live-editor',
 		), $this->version );
 		wp_enqueue_script( 'flexslider', $url . '/assets/jquery.flexslider.min.js', array( 'jquery' ) );
 
@@ -224,7 +224,7 @@ class Pootle_Slider_Public {
 	 */
 	private function maybe_show_edit_link( $post_id ) {
 
-		if ( is_user_logged_in() && filter_input( INPUT_GET, 'ppbLiveEditor' ) ) {
+		if ( is_user_logged_in() && ( filter_input( INPUT_GET, 'ppbLiveEditor' ) || filter_input( INPUT_POST, 'action' ) == "pootlepb_live_editor" ) ) {
 
 			$nonce_url = wp_nonce_url( get_the_permalink( $post_id ), 'ppb-live-edit-nonce', 'ppbLiveEditor' );
 
