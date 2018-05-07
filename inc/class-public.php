@@ -152,9 +152,9 @@ class Pootle_Slider_Public {
 
 		$class = 'pootle-slider-wrap pootle-slider-transparent';
 		$class .= $this->full_width ? ' ppb-stretch-full-width' : '';
-
+		$ratio = $this->get_ratio( $post_id );
 		return
-			"<div class='$class' id='{$id}-wrap'>$pb" .
+			"<div class='$class' id='{$id}-wrap' data-ratio='{$ratio}'>$pb" .
 			$this->maybe_show_edit_link( $post_id ) .
 			'</div>' .
 			$this->script( $id, $post_id );
@@ -206,14 +206,13 @@ class Pootle_Slider_Public {
 	}
 
 	private function script( $id, $post_id ) {
-		$ratio = $this->get_ratio( $post_id );
 
 		$js_props = '{start : playvids,selector  : ".pootle-slider > .pootle-slide"';
 		foreach ( $this->js_props as $p => $v ) {
 			$js_props .= ",$p:$v";
 		}
 		$js_props .= '}';
-		return "<script id='$id-script'>window.pootleSliderInit( '#$id-wrap', $js_props, $ratio );</script>";
+		return "<script id='$id-script'>window.pootleSliderInit( '#$id-wrap', $js_props );</script>";
 	}
 
 	/**
