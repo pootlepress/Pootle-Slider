@@ -201,7 +201,7 @@ class Pootle_Slider_Admin{
 
 		$sliders = get_posts( array(
 			'post_type' => 'pootle-slider',
-			'numberposts' => 25,
+			'numberposts' => 511,
 			'post_status' => 'any',
 			) );
 
